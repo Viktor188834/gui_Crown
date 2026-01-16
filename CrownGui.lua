@@ -1,5 +1,38 @@
+--[[
+ПРИМЕР / TEMPLATE
+local w = gui.Window({
+	Text,
+	Key = "15925",
+	Https = "where are the code"
+})
 
+local page1 = w.AddPage({
+	Text,
+	OnMouseText,
+})
 
+local clickbutton = page1.ClickButton({
+	Text,
+	Callback = function()
+		print("sasal")
+	end
+})
+local Slide = page1.Slide({
+	Text,
+	Callback = function(Value: boolean) end
+})
+local textbox = page1.TextBox({
+	Text;
+	StarterValue: string;
+	Callback = function(Value: string) end
+})
+local Keybind = page1.Keybind({
+	Text;
+	Keybind = Enum.Keycode.B;
+	ChangedEnabled = false;
+	Callback = function() end;
+})
+]]
 local function create(name, prop)
 	local a = Instance.new(name);
 	for i,v in pairs(prop) do
