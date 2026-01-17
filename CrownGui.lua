@@ -400,6 +400,7 @@ Gui_to_return.Window = function(conf: {})
 							local active = false
 							local Slider = new:WaitForChild("Slide")
 							local Dot = Slider:WaitForChild("Dot")
+							new:FindFirstChildOfClass("TextLabel").Text = v.Text
 							local function OnActive2()
 								active = not active
 								if active then
