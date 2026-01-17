@@ -189,8 +189,10 @@ local function create_gui()
 	local Frame = gui:WaitForChild("Frame"):WaitForChild("Frame")
 	
 	table.insert(Actived_Functions, game:GetService("RunService").Heartbeat:Connect(function()
-		game:GetService("TweenService"):Create(gui:WaitForChild("Shadow"), TweenInfo.new(0.4, Enum.EasingStyle.Linear), {
-			Position = UDim2.new(0, (Frame.AbsolutePosition.X+(Frame.AbsoluteSize.X/2)),0, (Frame.AbsolutePosition.Y+(Frame.AbsoluteSize.Y/1.5)))}):Play()
+		if gui:FindFirstChild("Shadow") then
+			game:GetService("TweenService"):Create(gui:FindFirstChild("Shadow"), TweenInfo.new(0.4, Enum.EasingStyle.Linear), {
+				Position = UDim2.new(0, (Frame.AbsolutePosition.X+(Frame.AbsoluteSize.X/2)),0, (Frame.AbsolutePosition.Y+(Frame.AbsoluteSize.Y/1.5)))}):Play()
+		end
 	end))
 	
 	-- Scale
