@@ -317,7 +317,7 @@ Gui_to_return.Window = function(conf: {})
 
 	local Text_ = conf.Text or "Window";
 	local Key_ = conf.Key or nil;
-	local https_ = conf.Https or nil
+	local https_ = conf.Https or "None"
 	
 	if Key_ and type(Key_) == "string" then
 		gui.Enabled = false
