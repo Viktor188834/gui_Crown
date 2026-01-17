@@ -70,7 +70,7 @@ local Animations = {
 	{Starter_Guis.Text, TweenInfo.new(0.2, Enum.EasingStyle.Quad), {TextTransparency = 0}};
 	{Starter_Guis.Text, TweenInfo.new(0.25, Enum.EasingStyle.Quad), {TextTransparency = 0}};
 	{Starter_Guis.Crown, TweenInfo.new(0.35, Enum.EasingStyle.Quad), {ImageTransparency = 0, Position = UDim2.new(0.442857, 45, -0.457143, 0), Rotation = 0}};
-	{Starter_Guis.Crown, TweenInfo.new(0.45, Enum.EasingStyle.Linear), {Position = UDim2.new(0.442857, 45, 0.047143, 0), Rotation = 0}};
+	{Starter_Guis.Crown, TweenInfo.new(0.45, Enum.EasingStyle.Linear), {Position = UDim2.new(0.442857, 45, 0.047143, 0), Rotation = -10}};
 	{Starter_Guis.Crown, TweenInfo.new(0.13, Enum.EasingStyle.Quad), {Position = UDim2.new(0.442857, 45, 0.147143, 0), Rotation = -10}};
 	{Starter_Guis.link, TweenInfo.new(0.4, Enum.EasingStyle.Linear), {TextTransparency = 0}};
 	{Starter_Guis.link, TweenInfo.new(5, Enum.EasingStyle.Linear), {TextTransparency = 0}};
