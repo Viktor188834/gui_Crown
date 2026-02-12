@@ -48,7 +48,7 @@ function Starter()
 	local Animation = create("ScreenGui", {Name = "Animation";IgnoreGuiInset = true;ResetOnSpawn = false;ZIndexBehavior = Enum.ZIndexBehavior.Sibling;Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")});
 	local Frame = create("Frame", {Name = "Frame";Position = UDim2.new(0.5, 0, 0.5, 0);Size = UDim2.new(0, 350, 0, 70);BackgroundColor3 = Color3.new(0.113725, 0.113725, 0.113725);BorderSizePixel = 0;BorderColor3 = Color3.new(0, 0, 0);AnchorPoint = Vector2.new(0.5, 0.5);Parent = Animation});
 	local Crown = create("ImageLabel", {Name = "Crown";Position = UDim2.new(0.442857, 45, 5.157143, 0);Size = UDim2.new(0, 70, 0, 60);BackgroundColor3 = Color3.new(1, 1, 1);BackgroundTransparency = 1;BorderSizePixel = 0;BorderColor3 = Color3.new(0, 0, 0);ZIndex = 3;Rotation = -10;AnchorPoint = Vector2.new(0.5, 0.5);Image = "rbxassetid://17409640887";Parent = Frame});
-	local Text = create("TextLabel", {Name = "Text";Size = UDim2.new(1, 0, 1, 0);BackgroundColor3 = Color3.new(1, 1, 1);BackgroundTransparency = 1;BorderSizePixel = 0;BorderColor3 = Color3.new(0, 0, 0);TextTransparency = 0;Text = "Gui Created Speccialy For <font color='rgb(255, 255, 0)'>Crown Softworks</font>";TextColor3 = Color3.new(1, 1, 1);TextSize = 21;FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal);TextWrapped = true;RichText = true;Parent = Frame});
+	local Text = create("TextLabel", {Name = "Text";Size = UDim2.new(1, 0, 1, 0);BackgroundColor3 = Color3.new(1, 1, 1);BackgroundTransparency = 1;BorderSizePixel = 0;BorderColor3 = Color3.new(0, 0, 0);TextTransparency = 0;Text = "Gui Created Speccialy For <font color='rgb(255, 0, 255)'>Viktor18834</font>";TextColor3 = Color3.new(1, 1, 1);TextSize = 21;FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal);TextWrapped = true;RichText = true;Parent = Frame});
 	local link = create("TextBox", {Name = "link";Position = UDim2.new(0, 0, 1, 0);Size = UDim2.new(1, 0, 0.25, 0);BackgroundColor3 = Color3.new(0.113725, 0.113725, 0.113725);BorderSizePixel = 0;BorderColor3 = Color3.new(0, 0, 0);Text = "https://youtube.com";TextColor3 = Color3.new(0.415686, 0.443137, 1);TextSize = 15;FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Bold, Enum.FontStyle.Italic);TextXAlignment = Enum.TextXAlignment.Left;TextYAlignment = Enum.TextYAlignment.Top;RichText = true;Parent = Frame, TextEditable = false, ClearTextOnFocus = false});
 	return {
 		Animation = Animation;
@@ -184,17 +184,17 @@ local function create_gui()
 	local Close = create("ImageButton", {Name = "Close";Position = UDim2.new(1, -20, 0, 20);Size = UDim2.new(0, 30, 0, 30);BackgroundColor3 = Color3.new(1, 1, 1);BackgroundTransparency = 1;BorderSizePixel = 0;BorderColor3 = Color3.new(0, 0, 0);AnchorPoint = Vector2.new(0.5, 0.5);Transparency = 1;Image = "rbxassetid://90965270530088";Parent = More})
 	local Settings = create("ImageButton", {Name = "Settings";Position = UDim2.new(1, -90, 0, 20);Size = UDim2.new(0, 30, 0, 30);BackgroundColor3 = Color3.new(1, 1, 1);BackgroundTransparency = 1;BorderSizePixel = 0;BorderColor3 = Color3.new(0, 0, 0);AnchorPoint = Vector2.new(0.5, 0.5);Transparency = 1;Image = "rbxassetid://112630223329701";Parent = More})
 	local Hide = create("ImageButton", {Name = "Hide";Position = UDim2.new(1, -55, 0, 20);Size = UDim2.new(0, 30, 0, 30);BackgroundColor3 = Color3.new(1, 1, 1);BackgroundTransparency = 1;BorderSizePixel = 0;BorderColor3 = Color3.new(0, 0, 0);AnchorPoint = Vector2.new(0.5, 0.5);Transparency = 1;Image = "rbxassetid://15396333997";Parent = More})
-	
+
 	local gui = guiScript1
 	local Frame = gui:WaitForChild("Frame"):WaitForChild("Frame")
-	
+
 	table.insert(Actived_Functions, game:GetService("RunService").Heartbeat:Connect(function()
 		if gui:FindFirstChild("Shadow") then
-			game:GetService("TweenService"):Create(gui:FindFirstChild("Shadow"), TweenInfo.new(0.4, Enum.EasingStyle.Linear), {
+			game:GetService("TweenService"):Create(gui:FindFirstChild("Shadow"), TweenInfo.new(0.05, Enum.EasingStyle.Linear), {
 				Position = UDim2.new(0, (Frame.AbsolutePosition.X+(Frame.AbsoluteSize.X/2)),0, (Frame.AbsolutePosition.Y+(Frame.AbsoluteSize.Y/1.5)))}):Play()
 		end
 	end))
-	
+
 	-- Scale
 	local funY = nil
 	YScale.MouseEnter:Connect(function()
@@ -226,7 +226,7 @@ local function create_gui()
 	YScale.MouseButton1Up:Connect(function()
 		funY:Disconnect()
 	end)
-	
+
 	local funX = nil
 	XScale.MouseEnter:Connect(function()
 		game:GetService("TweenService"):Create(XScale, TweenInfo.new(0.15, Enum.EasingStyle.Linear), {
@@ -257,7 +257,7 @@ local function create_gui()
 	XScale.MouseButton1Up:Connect(function()
 		funX:Disconnect()
 	end)
-	
+
 	--buttons functions
 	local function OnActive1()
 		for _,v in Frame:WaitForChild("Page"):GetChildren() do
@@ -267,7 +267,7 @@ local function create_gui()
 	end
 	Close.MouseButton1Down:Connect(OnActive1)
 	Close.TouchTap:Connect(OnActive1)
-	
+
 	local vis = true
 	local cd = false
 	local y = 0
@@ -290,26 +290,26 @@ local function create_gui()
 		end
 		cd = false
 	end
-	
+
 	local function OnActive2()
 
 	end
 	Settings.MouseButton1Down:Connect(OnActive2)
 	Settings.TouchTap:Connect(OnActive2)
-	
+
 	local function OnActive3()
 		Hide_UnHide()
 	end
 	Hide.MouseButton1Down:Connect(OnActive3)
 	Hide.TouchTap:Connect(OnActive3)
-	
+
 	table.insert(Actived_Functions, game:GetService("UserInputService").InputBegan:Connect(function(i,g)
 		if g then return end
 		if i.KeyCode == Enum.KeyCode.K then
 			Hide_UnHide()
 		end
 	end))
-	
+
 	return guiScript1
 end
 
@@ -321,7 +321,7 @@ Gui_to_return.Window = function(conf: {})
 	local Text_ = conf.Text or "Window";
 	local Key_ = conf.Key or nil;
 	local https_ = conf.Https or "None"
-	
+
 	if Key_ and type(Key_) == "string" then
 		gui.Enabled = false
 		local ScreenGui: ScreenGui = create("ScreenGui", {Name = "ScreenGui";IgnoreGuiInset = true;ResetOnSpawn = false;ZIndexBehavior = Enum.ZIndexBehavior.Sibling;Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")})
