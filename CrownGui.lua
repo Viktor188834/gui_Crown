@@ -7,30 +7,33 @@ local w = gui.Window({
 })
 
 local page1 = w.AddPage({
-	Text,
-	OnMouseText,
+	Text: string;
+	OnMouseText: string;
 })
 
 local clickbutton = page1.ClickButton({
-	Text,
-	Callback = function()
-		print("sasal")
-	end
+	Text: string;
+	Callback: ()
 })
 local Slide = page1.Slide({
-	Text,
-	Callback = function(Value: boolean) end
+	Text: string;
+	Callback: ()
 })
 local textbox = page1.TextBox({
-	Text;
+	Tex: string;
 	StarterValue: string;
-	Callback = function(Value: string) end
+	Callback: ()
 })
 local Keybind = page1.Keybind({
-	Text;
-	Keybind = Enum.Keycode.B;
-	ChangedEnabled = false;
-	Callback = function() end;
+	Text: string;
+	Keybind: Enum.Keycode;
+	ChangedEnabled: Boolean;
+	Callback: ();
+})
+local PlrSelect = page1.PlrSelect({
+	Callback: (selected_player: Player),
+	Text: string,
+	PlayerIcon: boolean,
 })
 ]]
 local function create(name, prop)
@@ -43,6 +46,7 @@ end
 
 local Gui_to_return = {}
 local Actived_Functions = {}
+local here = {}
 
 function Starter()
 	local Animation = create("ScreenGui", {Name = "Animation";IgnoreGuiInset = true;ResetOnSpawn = false;ZIndexBehavior = Enum.ZIndexBehavior.Sibling;Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")});
@@ -84,6 +88,9 @@ for _,v in Animations do
 	tween.Completed:Wait()
 end
 
+local plr_selected = Instance.new("BindableEvent")
+local hide_unhide_bind = Instance.new("BindableEvent")
+
 game:GetService("TweenService"):Create(Starter_Guis.Frame, TweenInfo.new(1), {Position = UDim2.new(0.5, 0, 0.9)}):Play()
 for i,v in Starter_Guis do
 	if v:IsA("TextLabel") then
@@ -102,6 +109,7 @@ end
 wait(1)
 
 Starter_Guis.Animation:Destroy()
+local DisplayName = false
 
 local function create_gui()
 	local guiScript1: ScreenGui = create("ScreenGui", {Name = "script", IgnoreGuiInset = true, ResetOnSpawn = false, ZIndexBehavior = Enum.ZIndexBehavior.Sibling, Parent = game:GetService("CoreGui") or game.Players.LocalPlayer:WaitForChild("PlayerGui")})
@@ -184,6 +192,250 @@ local function create_gui()
 	local Close = create("ImageButton", {Name = "Close";Position = UDim2.new(1, -20, 0, 20);Size = UDim2.new(0, 30, 0, 30);BackgroundColor3 = Color3.new(1, 1, 1);BackgroundTransparency = 1;BorderSizePixel = 0;BorderColor3 = Color3.new(0, 0, 0);AnchorPoint = Vector2.new(0.5, 0.5);Transparency = 1;Image = "rbxassetid://90965270530088";Parent = More})
 	local Settings = create("ImageButton", {Name = "Settings";Position = UDim2.new(1, -90, 0, 20);Size = UDim2.new(0, 30, 0, 30);BackgroundColor3 = Color3.new(1, 1, 1);BackgroundTransparency = 1;BorderSizePixel = 0;BorderColor3 = Color3.new(0, 0, 0);AnchorPoint = Vector2.new(0.5, 0.5);Transparency = 1;Image = "rbxassetid://112630223329701";Parent = More})
 	local Hide = create("ImageButton", {Name = "Hide";Position = UDim2.new(1, -55, 0, 20);Size = UDim2.new(0, 30, 0, 30);BackgroundColor3 = Color3.new(1, 1, 1);BackgroundTransparency = 1;BorderSizePixel = 0;BorderColor3 = Color3.new(0, 0, 0);AnchorPoint = Vector2.new(0.5, 0.5);Transparency = 1;Image = "rbxassetid://15396333997";Parent = More})
+
+	local PlrSelect = Instance.new("Frame")
+	PlrSelect.Name = "PlrSelect"
+	PlrSelect.Position = UDim2.new(0, -50, 0, 0)
+	PlrSelect.Size = UDim2.new(0.5, 0, 1, 0)
+	PlrSelect.BackgroundColor3 = Color3.new(0.192157, 0.192157, 0.192157)
+	PlrSelect.BackgroundTransparency = 1
+	PlrSelect.BorderSizePixel = 0
+	PlrSelect.BorderColor3 = Color3.new(0, 0, 0)
+	PlrSelect.AnchorPoint = Vector2.new(1, 0)
+	PlrSelect.Visible = false
+	PlrSelect.Parent = guiScript4
+
+	local Shadow = Instance.new("ImageLabel")
+	Shadow.Name = "Shadow"
+	Shadow.Position = UDim2.new(0.5, 0, 0.5, 0)
+	Shadow.Size = UDim2.new(2, 0, 2, 0)
+	Shadow.BackgroundColor3 = Color3.new(1, 1, 1)
+	Shadow.BackgroundTransparency = 1
+	Shadow.BorderSizePixel = 0
+	Shadow.BorderColor3 = Color3.new(0, 0, 0)
+	Shadow.ZIndex = 0
+	Shadow.AnchorPoint = Vector2.new(0.5, 0.5)
+	Shadow.Image = "rbxassetid://7928096707"
+	Shadow.ImageColor3 = Color3.new(0, 0, 0)
+	Shadow.ImageTransparency = 0.20000000298023224
+	Shadow.Parent = PlrSelect
+
+	local Frame = Instance.new("Frame")
+	Frame.Name = "Frame"
+	Frame.Size = UDim2.new(1, 0, 1, 0)
+	Frame.BackgroundColor3 = Color3.new(0.192157, 0.192157, 0.192157)
+	Frame.BorderSizePixel = 0
+	Frame.BorderColor3 = Color3.new(0, 0, 0)
+	Frame.Parent = PlrSelect
+
+	local CanvasGroup = Instance.new("CanvasGroup")
+	CanvasGroup.Name = "CanvasGroup"
+	CanvasGroup.Size = UDim2.new(1, 0, 1, 0)
+	CanvasGroup.BackgroundColor3 = Color3.new(1, 1, 1)
+	CanvasGroup.BackgroundTransparency = 1
+	CanvasGroup.BorderSizePixel = 0
+	CanvasGroup.BorderColor3 = Color3.new(0, 0, 0)
+	CanvasGroup.Parent = Frame
+
+	local Shadow2 = Instance.new("ImageLabel")
+	Shadow2.Name = "Shadow"
+	Shadow2.Position = UDim2.new(0.5, 0, 0.5, 0)
+	Shadow2.Size = UDim2.new(1.6, 0, 2, 0)
+	Shadow2.BackgroundColor3 = Color3.new(1, 1, 1)
+	Shadow2.BackgroundTransparency = 1
+	Shadow2.BorderSizePixel = 0
+	Shadow2.BorderColor3 = Color3.new(0, 0, 0)
+	Shadow2.ZIndex = 0
+	Shadow2.AnchorPoint = Vector2.new(0.5, 0.5)
+	Shadow2.Image = "rbxassetid://7928096707"
+	Shadow2.ImageTransparency = 0.949999988079071
+	Shadow2.Parent = CanvasGroup
+
+	local UICorner = Instance.new("UICorner")
+	UICorner.Name = "UICorner"
+
+	UICorner.Parent = Frame
+
+	local ScrollingFrame = Instance.new("ScrollingFrame")
+	ScrollingFrame.Name = "ScrollingFrame"
+	ScrollingFrame.Size = UDim2.new(1, 0, 1, 0)
+	ScrollingFrame.BackgroundColor3 = Color3.new(1, 1, 1)
+	ScrollingFrame.BackgroundTransparency = 1
+	ScrollingFrame.BorderSizePixel = 0
+	ScrollingFrame.BorderColor3 = Color3.new(0, 0, 0)
+	ScrollingFrame.Active = true
+	ScrollingFrame.ScrollBarImageColor3 = Color3.new(0, 0, 0)
+	ScrollingFrame.ScrollBarImageTransparency = 0.5
+	ScrollingFrame.ScrollBarThickness = 10
+	ScrollingFrame.ScrollingDirection = Enum.ScrollingDirection.Y
+	ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+	ScrollingFrame.Parent = PlrSelect
+
+	local PlrSelectTemp = Instance.new("Frame")
+	PlrSelectTemp.Name = "PlrSelectTemp"
+	PlrSelectTemp.Size = UDim2.new(0.95, 0, 0, 35)
+	PlrSelectTemp.BackgroundColor3 = Color3.new(1, 1, 1)
+	PlrSelectTemp.BackgroundTransparency = 1
+	PlrSelectTemp.BorderSizePixel = 0
+	PlrSelectTemp.BorderColor3 = Color3.new(0, 0, 0)
+	PlrSelectTemp.Parent = guiScript25
+
+	local plrIcon = Instance.new("ImageLabel")
+	plrIcon.Name = "plrIcon"
+	plrIcon.Size = UDim2.new(0.19, 0, 1, 0)
+	plrIcon.BackgroundColor3 = Color3.new(1, 1, 1)
+	plrIcon.BackgroundTransparency = 1
+	plrIcon.BorderSizePixel = 0
+	plrIcon.BorderColor3 = Color3.new(0, 0, 0)
+	plrIcon.Image = "rbxasset://textures/ui/GuiImagePlaceholder.png"
+	plrIcon.Parent = PlrSelectTemp
+
+	local UICorner2 = Instance.new("UICorner")
+	UICorner2.Name = "UICorner"
+	UICorner2.CornerRadius = UDim.new(0, 16)
+	UICorner2.Parent = plrIcon
+
+	local TextLabel = Instance.new("TextLabel")
+	TextLabel.Name = "TextLabel"
+	TextLabel.Position = UDim2.new(1, 0, 0, 0)
+	TextLabel.Size = UDim2.new(0.8, -3, 1, 0)
+	TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+	TextLabel.BackgroundTransparency = 1
+	TextLabel.BorderSizePixel = 0
+	TextLabel.BorderColor3 = Color3.new(0, 0, 0)
+	TextLabel.AnchorPoint = Vector2.new(1, 0)
+	TextLabel.Text = "CornDogP350 (LXS_geroich)"
+	TextLabel.TextColor3 = Color3.new(0.941177, 0.941177, 0.941177)
+	TextLabel.TextSize = 12
+	TextLabel.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+	TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+	TextLabel.RichText = true
+	TextLabel.Parent = PlrSelectTemp
+
+	local ActivateButton = Instance.new("TextButton")
+	ActivateButton.Name = "ActivateButton"
+	ActivateButton.Size = UDim2.new(1, 0, 1, 0)
+	ActivateButton.BackgroundColor3 = Color3.new(1, 1, 1)
+	ActivateButton.BackgroundTransparency = 1
+	ActivateButton.BorderSizePixel = 0
+	ActivateButton.BorderColor3 = Color3.new(0, 0, 0)
+	ActivateButton.ZIndex = 3
+	ActivateButton.Transparency = 1
+	ActivateButton.TextColor3 = Color3.new(0, 0, 0)
+	ActivateButton.TextSize = 14
+	ActivateButton.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	ActivateButton.AutoButtonColor = false
+	ActivateButton.Parent = PlrSelectTemp
+
+	local UIListLayout = Instance.new("UIListLayout")
+	UIListLayout.Name = "UIListLayout"
+	UIListLayout.Padding = UDim.new(0, 5)
+	UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+	UIListLayout.Wraps = true
+	UIListLayout.Parent = ScrollingFrame
+
+	local plrSelect = Instance.new("Frame")
+	plrSelect.Name = "plrSelect"
+	plrSelect.Position = UDim2.new(0, 0, 0, 90)
+	plrSelect.Size = UDim2.new(1, 0, 0, 30)
+	plrSelect.BackgroundColor3 = Color3.new(0.219608, 0.219608, 0.219608)
+	plrSelect.BackgroundTransparency = 1
+	plrSelect.BorderSizePixel = 0
+	plrSelect.BorderColor3 = Color3.new(0, 0, 0)
+	plrSelect.Parent = guiScript25
+
+	local ActivateButton = Instance.new("TextButton")
+	ActivateButton.Name = "ActivateButton"
+	ActivateButton.Size = UDim2.new(1, 0, 1, 0)
+	ActivateButton.BackgroundColor3 = Color3.new(1, 1, 1)
+	ActivateButton.BackgroundTransparency = 1
+	ActivateButton.BorderSizePixel = 0
+	ActivateButton.BorderColor3 = Color3.new(0, 0, 0)
+	ActivateButton.Transparency = 1
+	ActivateButton.Text = ""
+	ActivateButton.TextColor3 = Color3.new(0, 0, 0)
+	ActivateButton.TextSize = 14
+	ActivateButton.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	ActivateButton.AutoButtonColor = false
+	ActivateButton.Parent = plrSelect
+
+	local _4 = Instance.new("Frame")
+	_4.Name = "|"
+	_4.Position = UDim2.new(0, 15, 0.5, 0)
+	_4.Size = UDim2.new(0, 3, 0.8, 0)
+	_4.BackgroundColor3 = Color3.new(1, 1, 1)
+	_4.BackgroundTransparency = 0.30000001192092896
+	_4.BorderSizePixel = 0
+	_4.BorderColor3 = Color3.new(0, 0, 0)
+	_4.AnchorPoint = Vector2.new(0.5, 0.5)
+	_4.Transparency = 0.30000001192092896
+	_4.Parent = plrSelect
+
+	local UICorner = Instance.new("UICorner")
+	UICorner.Name = "UICorner"
+	UICorner.CornerRadius = UDim.new(1, 0)
+	UICorner.Parent = _4
+
+	local TextLabel = Instance.new("TextLabel")
+	TextLabel.Name = "TextLabel"
+	TextLabel.Position = UDim2.new(0.1, 0, 0, 0)
+	TextLabel.Size = UDim2.new(0.8, 0, 1, 0)
+	TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+	TextLabel.BackgroundTransparency = 1
+	TextLabel.BorderSizePixel = 0
+	TextLabel.BorderColor3 = Color3.new(0, 0, 0)
+	TextLabel.TextColor3 = Color3.new(0.941177, 0.941177, 0.941177)
+	TextLabel.TextSize = 18
+	TextLabel.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+	TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+	TextLabel.RichText = true
+	TextLabel.Parent = plrSelect
+
+	local ImageLabel = Instance.new("ImageLabel")
+	ImageLabel.Name = "ImageLabel"
+	ImageLabel.Position = UDim2.new(1, -40, 0, 0)
+	ImageLabel.Size = UDim2.new(0, 25, 0, 25)
+	ImageLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+	ImageLabel.BackgroundTransparency = 1
+	ImageLabel.BorderSizePixel = 0
+	ImageLabel.BorderColor3 = Color3.new(0, 0, 0)
+	ImageLabel.Transparency = 1
+	ImageLabel.Image = "rbxassetid://2243841635"
+	ImageLabel.Parent = plrSelect
+	
+	local function hide_unhide(boolean: boolean)
+		PlrSelect.Visible = boolean
+	end
+	
+	hide_unhide_bind.Event:Connect(function(a)
+		hide_unhide(a)
+	end)
+	
+	local function on_plr_added(plr)
+		local cloned = PlrSelectTemp:Clone()
+		cloned.Parent = ScrollingFrame
+		cloned.Name = plr.Name
+		local image, _ = game.Players:GetUserThumbnailAsync(plr.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100)
+		cloned:WaitForChild("plrIcon").Image = image
+		cloned:FindFirstChildOfClass("TextLabel").Text = plr.DisplayName
+		local function onActive3()
+			plr_selected:Fire(plr)
+			hide_unhide(false)
+		end
+		cloned.ActivateButton.TouchTap:Connect(onActive3)
+		cloned.ActivateButton.MouseButton1Down:Connect(onActive3)
+	end
+	
+	for _, plr in game.Players:GetPlayers() do
+		on_plr_added(plr)
+	end
+	game.Players.PlayerAdded:Connect(on_plr_added)
+	game.Players.PlayerRemoving:Connect(function(plr)
+		local a = PlrSelect:FindFirstChild(plr.Name)
+		if a then
+			a:Destroy()
+		end
+	end)
 
 	local gui = guiScript1
 	local Frame = gui:WaitForChild("Frame"):WaitForChild("Frame")
@@ -338,6 +590,8 @@ Gui_to_return.Window = function(conf: {})
 	local Frame: Frame = gui:WaitForChild("Frame"):WaitForChild("Frame")
 	local Page = Frame:WaitForChild("Page")
 	local templates = gui:WaitForChild("Templates")
+	
+	local PlrSelect = Frame:WaitForChild("PlrSelect")
 
 	Frame:WaitForChild("name").Text = Text_
 
@@ -458,6 +712,31 @@ Gui_to_return.Window = function(conf: {})
 							end
 							ActivateButton.MouseButton1Down:Connect(OnActive3)
 							ActivateButton.TouchTap:Connect(OnActive3)
+						elseif v.id == "plrSelect" then
+							new:WaitForChild("TextLabel").Text = v.Text
+							local a
+							local function OnActive3()
+								if v.PlayerIcon then
+									for _,v in PlrSelect:GetChildren() do
+										PlrSelect:FindFirstChildOfClass("ImageLabel").ImageTransparency = 0
+									end
+								else
+									for _,v in PlrSelect:GetChildren() do
+										PlrSelect:FindFirstChildOfClass("ImageLabel").ImageTransparency = 1
+									end
+								end
+								if not a then
+									hide_unhide_bind:Fire(true)
+									a = plr_selected.Event:Connect(function(plr)
+										v.Callback(plr)
+									end)
+								else
+									hide_unhide_bind:Fire(false)
+									a:Disconnect()
+								end
+							end
+							ActivateButton.MouseButton1Down:Connect(OnActive3)
+							ActivateButton.TouchTap:Connect(OnActive3)
 						end
 					end
 				end
@@ -513,6 +792,12 @@ Gui_to_return.Window = function(conf: {})
 			local Callback_ = configurations2.Callback or nil
 			local Text_ = configurations2.Text or nil
 			table.insert(sections, {id = "ClickButton", Callback = Callback_, Text = Text_})
+		end
+		_return2.PlrSelect = function(configurations2: {})
+			local Callback_ = configurations2.Callback or nil
+			local Text_ = configurations2.Text or nil
+			local PlayerIcon_ = configurations2.PlayerIcon or nil
+			table.insert(sections, {id = "plrSelect", Callback = Callback_, Text = Text_, PlayerIcon = PlayerIcon_})
 		end
 		return _return2
 	end
