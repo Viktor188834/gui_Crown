@@ -48,6 +48,127 @@ local Gui_to_return = {}
 local Actived_Functions = {}
 local here = {}
 
+here.slider = function(parent: Instance, Position: UDim2, Size: UDim2, Callback)
+	
+	local mouse = game.Players.LocalPlayer:GetMouse()
+	
+	local Slider = Instance.new("Frame")
+	Slider.Name = "Slider"
+	Slider.Position = Position
+	Slider.Size = Size
+	Slider.BackgroundColor3 = Color3.new(1, 1, 1)
+	Slider.BackgroundTransparency = 0.5
+	Slider.BorderSizePixel = 0
+	Slider.BorderColor3 = Color3.new(0, 0, 0)
+	Slider.ZIndex = 2
+	Slider.AnchorPoint = Vector2.new(0.5, 0.5)
+	Slider.Parent = parent
+
+	local UICorner = Instance.new("UICorner")
+	UICorner.Name = "UICorner"
+	UICorner.Parent = Slider
+
+	local Slide = Instance.new("TextButton")
+	Slide.Name = "Slide"
+	Slide.Position = UDim2.new(0, 0, 0.5, 0)
+	Slide.Size = UDim2.new(0, 10, 1.5, 0)
+	Slide.BackgroundColor3 = Color3.new(0.403922, 0.403922, 0.403922)
+	Slide.BorderSizePixel = 0
+	Slide.BorderColor3 = Color3.new(0, 0, 0)
+	Slide.AnchorPoint = Vector2.new(0, 0.5)
+	Slide.Text = ""
+	Slide.TextColor3 = Color3.new(0, 0, 0)
+	Slide.TextSize = 14
+	Slide.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	Slide.AutoButtonColor = false
+	Slide.Parent = Slider
+
+	local CanvasGroup = Instance.new("CanvasGroup")
+	CanvasGroup.Name = "CanvasGroup"
+	CanvasGroup.Size = UDim2.new(1, 0, 1, 0)
+	CanvasGroup.BackgroundColor3 = Color3.new(1, 1, 1)
+	CanvasGroup.BackgroundTransparency = 1
+	CanvasGroup.BorderSizePixel = 0
+	CanvasGroup.BorderColor3 = Color3.new(0, 0, 0)
+	CanvasGroup.Parent = Slide
+
+	local Shadow = Instance.new("ImageLabel")
+	Shadow.Name = "Shadow"
+	Shadow.Size = UDim2.new(1.5, 0, 1.5, 0)
+	Shadow.BackgroundColor3 = Color3.new(1, 1, 1)
+	Shadow.BackgroundTransparency = 1
+	Shadow.BorderSizePixel = 0
+	Shadow.BorderColor3 = Color3.new(0, 0, 0)
+	Shadow.ZIndex = 0
+	Shadow.AnchorPoint = Vector2.new(0.2, 0.3)
+	Shadow.Image = "rbxassetid://7928096707"
+	Shadow.ImageTransparency = 0.5
+	Shadow.Parent = CanvasGroup
+
+	local UICorner2 = Instance.new("UICorner")
+	UICorner2.Name = "UICorner"
+	UICorner2.Parent = CanvasGroup
+
+	local UICorner3 = Instance.new("UICorner")
+	UICorner3.Name = "UICorner"
+	UICorner3.Parent = Slide
+
+	local CanvasGroup2 = Instance.new("CanvasGroup")
+	CanvasGroup2.Name = "CanvasGroup"
+	CanvasGroup2.Size = UDim2.new(1, 0, 1, 0)
+	CanvasGroup2.BackgroundColor3 = Color3.new(1, 1, 1)
+	CanvasGroup2.BackgroundTransparency = 1
+	CanvasGroup2.BorderSizePixel = 0
+	CanvasGroup2.BorderColor3 = Color3.new(0, 0, 0)
+	CanvasGroup2.Parent = Slider
+
+	local Shadow2 = Instance.new("ImageLabel")
+	Shadow2.Name = "Shadow"
+	Shadow2.Position = UDim2.new(-0.3, 0, -0.5, 0)
+	Shadow2.Size = UDim2.new(1.5, 0, 1.7, 0)
+	Shadow2.BackgroundColor3 = Color3.new(1, 1, 1)
+	Shadow2.BackgroundTransparency = 1
+	Shadow2.BorderSizePixel = 0
+	Shadow2.BorderColor3 = Color3.new(0, 0, 0)
+	Shadow2.ZIndex = 0
+	Shadow2.Image = "rbxassetid://7928096707"
+	Shadow2.ImageTransparency = 0.5
+	Shadow2.Parent = CanvasGroup2
+
+	local UICorner4 = Instance.new("UICorner")
+	UICorner4.Name = "UICorner"
+	UICorner4.Parent = CanvasGroup2
+	
+	local m1 = false
+	
+	Slide.MouseButton1Down:Connect(function(x,y)
+		m1 = true
+	end)
+	
+	Slide.MouseButton1Up:Connect(function(x,y)
+		m1 = false
+	end)
+	
+	mouse.Button1Up:Connect(function()
+		m1 = false
+	end)
+	
+	game:GetService("RunService").Heartbeat:Connect(function()
+		if m1 then
+			local pos = UDim2.new(0, mouse.X-Slider.AbsolutePosition.X-(Slider.AbsoluteSize.X/10), 0.5, 0)
+			Slide.Position = pos
+			if Slide.Position.X.Offset <= 0 then
+				Slide.Position = UDim2.new(0, 0, 0.5, 0)
+			elseif Slide.Position.X.Offset >= Slider.AbsoluteSize.X then
+				Slide.Position = UDim2.new(1, 0, 0.5, 0)
+			end
+			Callback((Slide.AbsolutePosition.X-Slider.AbsolutePosition.X)/Slider.AbsoluteSize.X)
+		end
+	end)
+	
+	return Slider
+end
+
 function Starter()
 	local Animation = create("ScreenGui", {Name = "Animation";IgnoreGuiInset = true;ResetOnSpawn = false;ZIndexBehavior = Enum.ZIndexBehavior.Sibling;Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")});
 	local Frame = create("Frame", {Name = "Frame";Position = UDim2.new(0.5, 0, 0.5, 0);Size = UDim2.new(0, 350, 0, 70);BackgroundColor3 = Color3.new(0.113725, 0.113725, 0.113725);BorderSizePixel = 0;BorderColor3 = Color3.new(0, 0, 0);AnchorPoint = Vector2.new(0.5, 0.5);Parent = Animation});
@@ -90,6 +211,7 @@ end
 
 local plr_selected = Instance.new("BindableEvent")
 local hide_unhide_bind = Instance.new("BindableEvent")
+local color = Instance.new("BindableEvent")
 
 game:GetService("TweenService"):Create(Starter_Guis.Frame, TweenInfo.new(1), {Position = UDim2.new(0.5, 0, 0.9)}):Play()
 for i,v in Starter_Guis do
@@ -402,6 +524,200 @@ local function create_gui()
 	ImageLabel.Transparency = 1
 	ImageLabel.Image = "rbxassetid://2243841635"
 	ImageLabel.Parent = plrSelect
+	
+	local Color = Instance.new("Frame")
+	Color.Name = "Color"
+	Color.Position = UDim2.new(1, 50, 0.5, 0)
+	Color.Size = UDim2.new(0, 175, 0, 175)
+	Color.BackgroundColor3 = Color3.new(0.192157, 0.192157, 0.192157)
+	Color.BackgroundTransparency = 1
+	Color.BorderSizePixel = 0
+	Color.BorderColor3 = Color3.new(0, 0, 0)
+	Color.AnchorPoint = Vector2.new(0, 0.5)
+	Color.Parent = guiScript2
+	Color.Visible = false
+	local end_ = nil
+	local end_color = nil
+	local sliderBlack = here.slider(Color, UDim2.new(0.5, 0, 0.7, 0), UDim2.new(0.8, 0, 0.2, 0), function(value)
+		end_ = Color3.fromRGB(255-value*2.55, 255-value*2.55, 255-value*2.55)
+	end)
+	
+	local sliderColor = here.slider(Color, UDim2.new(0.5, 0, 0.3, 0), UDim2.new(0.8, 0, 0.3, 0), function(value)
+		local r = 0
+		local g = 0
+		local b = 0
+		local r2 = 0
+		r = 0.25-value
+		if r < 0 then
+			r = 1
+		end
+		g = 0.5-value
+		if g < 0 then
+			g = 1
+		end
+		b = 0.75-value
+		if b < 0 then
+			b = 1
+		end
+		end_color = Color3.fromRGB(r,g,b)
+	end)
+	
+	local UIGradientBlack = Instance.new("UIGradient")
+	UIGradientBlack.Name = "UIGradient"
+	UIGradientBlack.Color = ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1, Color3.new(0, 0, 0))})
+	UIGradientBlack.Parent = sliderBlack
+	
+	sliderBlack:FindFirstChildOfClass("CanvasGroup"):Destroy()
+	
+	local UIGradientColor = Instance.new("UIGradient")
+	UIGradientColor.Name = "UIGradient"
+	UIGradientColor.Color = ColorSequence.new({
+		ColorSequenceKeypoint.new(0, Color3.new(1, 0, 0)),
+		ColorSequenceKeypoint.new(0.25, Color3.new(0, 0, 1)),
+		ColorSequenceKeypoint.new(0.5, Color3.new(0, 1, 0.0823529)),
+		ColorSequenceKeypoint.new(0.75, Color3.new(1, 0.933333, 0)),
+		ColorSequenceKeypoint.new(1, Color3.new(1, 0, 0))
+	})
+	UIGradientColor.Parent = sliderColor
+
+	sliderColor:FindFirstChildOfClass("CanvasGroup"):Destroy()
+
+	local Shadow = Instance.new("ImageLabel")
+	Shadow.Name = "Shadow"
+	Shadow.Position = UDim2.new(0.5, 0, 0.5, 0)
+	Shadow.Size = UDim2.new(2, 0, 2, 0)
+	Shadow.BackgroundColor3 = Color3.new(1, 1, 1)
+	Shadow.BackgroundTransparency = 1
+	Shadow.BorderSizePixel = 0
+	Shadow.BorderColor3 = Color3.new(0, 0, 0)
+	Shadow.ZIndex = 0
+	Shadow.AnchorPoint = Vector2.new(0.5, 0.5)
+	Shadow.Transparency = 1
+	Shadow.Image = "rbxassetid://7928096707"
+	Shadow.ImageColor3 = Color3.new(0, 0, 0)
+	Shadow.ImageTransparency = 0.20000000298023224
+	Shadow.Parent = Color
+
+	local Frame = Instance.new("Frame")
+	Frame.Name = "Frame"
+	Frame.Size = UDim2.new(1, 0, 1, 0)
+	Frame.BackgroundColor3 = Color3.new(0.192157, 0.192157, 0.192157)
+	Frame.BorderSizePixel = 0
+	Frame.BorderColor3 = Color3.new(0, 0, 0)
+	Frame.Parent = Color
+
+	local CanvasGroup = Instance.new("CanvasGroup")
+	CanvasGroup.Name = "CanvasGroup"
+	CanvasGroup.Size = UDim2.new(1, 0, 1, 0)
+	CanvasGroup.BackgroundColor3 = Color3.new(1, 1, 1)
+	CanvasGroup.BackgroundTransparency = 1
+	CanvasGroup.BorderSizePixel = 0
+	CanvasGroup.BorderColor3 = Color3.new(0, 0, 0)
+	CanvasGroup.Transparency = 1
+	CanvasGroup.Parent = Frame
+
+	local Shadow2 = Instance.new("ImageLabel")
+	Shadow2.Name = "Shadow"
+	Shadow2.Position = UDim2.new(0.5, 0, 0.5, 0)
+	Shadow2.Size = UDim2.new(1.6, 0, 2, 0)
+	Shadow2.BackgroundColor3 = Color3.new(1, 1, 1)
+	Shadow2.BackgroundTransparency = 1
+	Shadow2.BorderSizePixel = 0
+	Shadow2.BorderColor3 = Color3.new(0, 0, 0)
+	Shadow2.ZIndex = 0
+	Shadow2.AnchorPoint = Vector2.new(0.5, 0.5)
+	Shadow2.Transparency = 1
+	Shadow2.Image = "rbxassetid://7928096707"
+	Shadow2.ImageTransparency = 0.949999988079071
+	Shadow2.Parent = CanvasGroup
+
+	local UICorner = Instance.new("UICorner")
+	UICorner.Name = "UICorner"
+	UICorner.Parent = Frame
+	
+	local ColorSelect = Instance.new("Frame")
+	ColorSelect.Name = "ColorSelect"
+	ColorSelect.Position = UDim2.new(0, 0, 0, 90)
+	ColorSelect.Size = UDim2.new(1, 0, 0, 30)
+	ColorSelect.BackgroundColor3 = Color3.new(0.219608, 0.219608, 0.219608)
+	ColorSelect.BackgroundTransparency = 1
+	ColorSelect.BorderSizePixel = 0
+	ColorSelect.BorderColor3 = Color3.new(0, 0, 0)
+	ColorSelect.Parent = guiScript25
+
+	local ActivateButton = Instance.new("TextButton")
+	ActivateButton.Name = "ActivateButton"
+	ActivateButton.Size = UDim2.new(1, 0, 1, 0)
+	ActivateButton.BackgroundColor3 = Color3.new(1, 1, 1)
+	ActivateButton.BackgroundTransparency = 1
+	ActivateButton.BorderSizePixel = 0
+	ActivateButton.BorderColor3 = Color3.new(0, 0, 0)
+	ActivateButton.Text = ""
+	ActivateButton.TextColor3 = Color3.new(0, 0, 0)
+	ActivateButton.TextSize = 14
+	ActivateButton.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	ActivateButton.AutoButtonColor = false
+	ActivateButton.Parent = ColorSelect
+
+	local _5 = Instance.new("Frame")
+	_5.Name = "|"
+	_5.Position = UDim2.new(0, 15, 0.5, 0)
+	_5.Size = UDim2.new(0, 3, 0.8, 0)
+	_5.BackgroundColor3 = Color3.new(1, 1, 1)
+	_5.BackgroundTransparency = 0.30000001192092896
+	_5.BorderSizePixel = 0
+	_5.BorderColor3 = Color3.new(0, 0, 0)
+	_5.AnchorPoint = Vector2.new(0.5, 0.5)
+	_5.Parent = ColorSelect
+
+	local UICorner = Instance.new("UICorner")
+	UICorner.Name = "UICorner"
+	UICorner.CornerRadius = UDim.new(1, 0)
+	UICorner.Parent = _5
+
+	local Text = Instance.new("TextLabel")
+	Text.Name = "Text"
+	Text.Position = UDim2.new(0.1, 0, 0, 0)
+	Text.Size = UDim2.new(0.8, 0, 1, 0)
+	Text.BackgroundColor3 = Color3.new(1, 1, 1)
+	Text.BackgroundTransparency = 1
+	Text.BorderSizePixel = 0
+	Text.BorderColor3 = Color3.new(0, 0, 0)
+	Text.Text = "Text"
+	Text.TextColor3 = Color3.new(0.921569, 0.921569, 0.921569)
+	Text.TextSize = 19
+	Text.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+	Text.TextXAlignment = Enum.TextXAlignment.Left
+	Text.RichText = true
+	Text.Parent = ColorSelect
+
+	local Image = Instance.new("ImageLabel")
+	Image.Name = "Image"
+	Image.Position = UDim2.new(1, -10, 0, 0)
+	Image.Size = UDim2.new(0.11, 0, 1, 0)
+	Image.BackgroundColor3 = Color3.new(1, 1, 1)
+	Image.BackgroundTransparency = 1
+	Image.BorderSizePixel = 0
+	Image.BorderColor3 = Color3.new(0, 0, 0)
+	Image.AnchorPoint = Vector2.new(1, 0)
+	Image.Image = "rbxassetid://7928096707"
+	Image.Parent = ColorSelect
+
+	local Color = Instance.new("TextLabel")
+	Color.Name = "Color"
+	Color.Position = UDim2.new(0.1, 0, 0, 0)
+	Color.Size = UDim2.new(0.77, 0, 1, 0)
+	Color.BackgroundColor3 = Color3.new(1, 1, 1)
+	Color.BackgroundTransparency = 1
+	Color.BorderSizePixel = 0
+	Color.BorderColor3 = Color3.new(0, 0, 0)
+	Color.Text = "(255, 255, 255)"
+	Color.TextColor3 = Color3.new(0.921569, 0.921569, 0.921569)
+	Color.TextSize = 10
+	Color.FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+	Color.TextXAlignment = Enum.TextXAlignment.Right
+	Color.RichText = true
+	Color.Parent = ColorSelect
 	
 	local function hide_unhide(boolean: boolean)
 		PlrSelect.Visible = boolean
@@ -737,6 +1053,8 @@ Gui_to_return.Window = function(conf: {})
 							end
 							ActivateButton.MouseButton1Down:Connect(OnActive3)
 							ActivateButton.TouchTap:Connect(OnActive3)
+						elseif v.id == "ColorSelect" then
+							
 						end
 					end
 				end
@@ -798,6 +1116,12 @@ Gui_to_return.Window = function(conf: {})
 			local Text_ = configurations2.Text or nil
 			local PlayerIcon_ = configurations2.PlayerIcon or nil
 			table.insert(sections, {id = "plrSelect", Callback = Callback_, Text = Text_, PlayerIcon = PlayerIcon_})
+		end
+		_return2.ColorSelect = function(configurations2: {})
+			local Callback_ = configurations2.Callback or nil
+			local Text_ = configurations2.Text or nil
+			local CallbackOnEnd_ = configurations2.CallbackOnEnd or nil
+			table.insert(sections, {id = "ColorSelect", Callback = Callback_, Text = Text_, CallbackOnEnd = CallbackOnEnd_})
 		end
 		return _return2
 	end
