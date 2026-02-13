@@ -35,6 +35,12 @@ local PlrSelect = page1.PlrSelect({
 	Text: string,
 	PlayerIcon: boolean,
 })
+local colorSelect = page1.ColorSelect({
+	Callback = function(color: Color3)
+		print(color)
+	end, 
+	Text = "Yes",
+})
 ]]
 local function create(name, prop)
 	local a = Instance.new(name);
@@ -153,13 +159,17 @@ here.slider = function(parent: Instance, Position: UDim2, Size: UDim2, Callback)
 		m1 = false
 	end)
 	
+	Slide.MouseLeave:Connect(function()
+		m1 = false
+	end)
+	
 	game:GetService("RunService").Heartbeat:Connect(function()
 		if m1 then
-			local pos = UDim2.new(0, mouse.X-Slider.AbsolutePosition.X-(Slider.AbsoluteSize.X/10), 0.5, 0)
+			local pos = UDim2.new(0, (mouse.X-Slider.AbsolutePosition.X)-4, 0.5, 0)
 			Slide.Position = pos
-			if Slide.Position.X.Offset <= 0 then
+			if Slide.Position.X.Offset < 0 then
 				Slide.Position = UDim2.new(0, 0, 0.5, 0)
-			elseif Slide.Position.X.Offset >= Slider.AbsoluteSize.X then
+			elseif Slide.Position.X.Offset > Slider.AbsoluteSize.X then
 				Slide.Position = UDim2.new(1, 0, 0.5, 0)
 			end
 			Callback((Slide.AbsolutePosition.X-Slider.AbsolutePosition.X)/Slider.AbsoluteSize.X)
@@ -212,6 +222,7 @@ end
 local plr_selected = Instance.new("BindableEvent")
 local hide_unhide_bind = Instance.new("BindableEvent")
 local color = Instance.new("BindableEvent")
+local color_show = Instance.new("BindableEvent")
 
 game:GetService("TweenService"):Create(Starter_Guis.Frame, TweenInfo.new(1), {Position = UDim2.new(0.5, 0, 0.9)}):Play()
 for i,v in Starter_Guis do
@@ -536,30 +547,58 @@ local function create_gui()
 	Color.AnchorPoint = Vector2.new(0, 0.5)
 	Color.Parent = guiScript2
 	Color.Visible = false
-	local end_ = nil
-	local end_color = nil
-	local sliderBlack = here.slider(Color, UDim2.new(0.5, 0, 0.7, 0), UDim2.new(0.8, 0, 0.2, 0), function(value)
-		end_ = Color3.fromRGB(255-value*2.55, 255-value*2.55, 255-value*2.55)
+	
+	color_show.Event:Connect(function(boolean)
+		Color.Visible = boolean
 	end)
 	
+	local end_ = nil
+	local end_color = nil
+	
+	local sliderBlack = here.slider(Color, UDim2.new(0.5, 0, 0.7, 0), UDim2.new(0.8, 0, 0.2, 0), function(value)
+		if end_color then
+			-- Правильный расчет для затемнения к черному
+			local darknessFactor = value  -- 0 = оригинальный цвет, 1 = черный
+			local newR = (end_color.R * (1 - darknessFactor))*255
+			local newG = (end_color.G * (1 - darknessFactor))*255
+			local newB = (end_color.B * (1 - darknessFactor))*255
+			color:Fire(Color3.fromRGB(newR, newG, newB))
+		end
+	end)
+	
+	local isDragging = false
+	local sliderValue = 0  -- от 0 до 1
+	
 	local sliderColor = here.slider(Color, UDim2.new(0.5, 0, 0.3, 0), UDim2.new(0.8, 0, 0.3, 0), function(value)
-		local r = 0
-		local g = 0
-		local b = 0
-		local r2 = 0
-		r = 0.25-value
-		if r < 0 then
-			r = 1
+
+		local function updateColor(value)
+			sliderValue = math.clamp(value, 0, 1)
+
+			local r, g, b
+			if sliderValue <= 0.33 then
+				local t = sliderValue / 0.33
+				r = 1 - t
+				g = t
+				b = 0
+			elseif sliderValue <= 0.66 then
+				local t = (sliderValue - 0.33) / 0.33
+				r = 0
+				g = 1 - t
+				b = t
+			else
+				local t = (sliderValue - 0.66) / 0.34
+				r = t
+				g = 0
+				b = 1
+			end
+
+			local color = Color3.new(r, g, b)
+
+			return color
 		end
-		g = 0.5-value
-		if g < 0 then
-			g = 1
-		end
-		b = 0.75-value
-		if b < 0 then
-			b = 1
-		end
-		end_color = Color3.fromRGB(r,g,b)
+		
+		color:Fire(updateColor(value))
+		end_color = updateColor(value)
 	end)
 	
 	local UIGradientBlack = Instance.new("UIGradient")
@@ -573,9 +612,8 @@ local function create_gui()
 	UIGradientColor.Name = "UIGradient"
 	UIGradientColor.Color = ColorSequence.new({
 		ColorSequenceKeypoint.new(0, Color3.new(1, 0, 0)),
-		ColorSequenceKeypoint.new(0.25, Color3.new(0, 0, 1)),
-		ColorSequenceKeypoint.new(0.5, Color3.new(0, 1, 0.0823529)),
-		ColorSequenceKeypoint.new(0.75, Color3.new(1, 0.933333, 0)),
+		ColorSequenceKeypoint.new(0.3333, Color3.new(0, 1, 0)),
+		ColorSequenceKeypoint.new(0.6667, Color3.new(0, 0, 1)),
 		ColorSequenceKeypoint.new(1, Color3.new(1, 0, 0))
 	})
 	UIGradientColor.Parent = sliderColor
@@ -762,6 +800,8 @@ local function create_gui()
 				Position = UDim2.new(0, (Frame.AbsolutePosition.X+(Frame.AbsoluteSize.X/2)),0, (Frame.AbsolutePosition.Y+(Frame.AbsoluteSize.Y/1.5)))}):Play()
 		end
 	end))
+	
+	local mouse = game.Players.LocalPlayer:GetMouse()
 
 	-- Scale
 	local funY = nil
@@ -779,7 +819,6 @@ local function create_gui()
 	YScale.MouseButton1Down:Connect(function()
 		funY = game:GetService("RunService").Heartbeat:Connect(function()
 			local frame: Frame = Frame.Parent
-			local mouse = game.Players.LocalPlayer:GetMouse()
 			local min = 180
 			local max = 400
 			frame.Size = UDim2.new(0,frame.AbsoluteSize.X,0,mouse.Y-frame.AbsolutePosition.Y-(YScale.AbsoluteSize.Y/2)-5)
@@ -810,7 +849,6 @@ local function create_gui()
 	XScale.MouseButton1Down:Connect(function()
 		funX = game:GetService("RunService").Heartbeat:Connect(function()
 			local frame: Frame = Frame.Parent
-			local mouse = game.Players.LocalPlayer:GetMouse()
 			local min = 280
 			local max = 550
 			frame.Size = UDim2.new(0,mouse.X-frame.AbsolutePosition.X-(XScale.AbsoluteSize.X/2)-5,0,frame.AbsoluteSize.Y)
@@ -1054,7 +1092,24 @@ Gui_to_return.Window = function(conf: {})
 							ActivateButton.MouseButton1Down:Connect(OnActive3)
 							ActivateButton.TouchTap:Connect(OnActive3)
 						elseif v.id == "ColorSelect" then
-							
+							new:WaitForChild("Text").Text = v.Text;
+							local a = false
+							local f = nil
+							local function OnActive3()
+								a = not a
+								color_show:Fire(a)
+								if not f then
+									f = color.Event:Connect(function(color: Color3)
+										new:WaitForChild("Image").ImageColor3 = color
+										new:WaitForChild("Color").Text = "("..(color.R*255//1)..", "..(color.G*255//1)..", "..(color.B*255//1)..")"
+										v.Callback(color)
+									end)
+								else
+									f:Disconnect()
+								end
+							end
+							ActivateButton.MouseButton1Down:Connect(OnActive3)
+							ActivateButton.TouchTap:Connect(OnActive3)
 						end
 					end
 				end
@@ -1120,8 +1175,7 @@ Gui_to_return.Window = function(conf: {})
 		_return2.ColorSelect = function(configurations2: {})
 			local Callback_ = configurations2.Callback or nil
 			local Text_ = configurations2.Text or nil
-			local CallbackOnEnd_ = configurations2.CallbackOnEnd or nil
-			table.insert(sections, {id = "ColorSelect", Callback = Callback_, Text = Text_, CallbackOnEnd = CallbackOnEnd_})
+			table.insert(sections, {id = "ColorSelect", Callback = Callback_, Text = Text_})
 		end
 		return _return2
 	end
