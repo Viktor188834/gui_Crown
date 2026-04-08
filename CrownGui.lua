@@ -1040,6 +1040,9 @@ Gui_to_return.Window = function(conf: {})
 								v.Callback(txText.Text)
 							end
 							txText.InputEnded:Connect(OnActive2)
+							if v.StarterValue then
+								OnActive2(v.StarterValue)
+							end
 						elseif v.id == "ClickButton" then
 							new:WaitForChild("Text").Text = v.Text
 							local function OnActive2()
