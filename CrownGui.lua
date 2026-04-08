@@ -285,7 +285,7 @@ local function create_gui()
 	local hor = create("Frame", {Name = "|";Position = UDim2.new(0, 15, 0.5, 0);Size = UDim2.new(0, 3, 0.8, 0);BackgroundColor3 = Color3.new(1, 1, 1);BackgroundTransparency = 0.30000001192092896;BorderSizePixel = 0;BorderColor3 = Color3.new(0, 0, 0);AnchorPoint = Vector2.new(0.5, 0.5);Transparency = 0.30000001192092896;Parent = TextBox})
 	local UICorner7 = create("UICorner", {Name = "UICorner";CornerRadius = UDim.new(1, 0);Parent = hor})
 	local TextBox2 = create("Frame", {Name = "TextBox";Position = UDim2.new(1, -15, 0.5, 0);Size = UDim2.new(0, 150, 0.6, 0);BackgroundColor3 = Color3.new(1, 1, 1);BackgroundTransparency = 1;BorderSizePixel = 0;BorderColor3 = Color3.new(0, 0, 0);AnchorPoint = Vector2.new(1, 0.5);Transparency = 1;Parent = TextBox})
-	local TextBox3 = create("TextBox", {Name = "TextBox";Size = UDim2.new(1, 0, 1, 0);BackgroundColor3 = Color3.new(1, 1, 1);BackgroundTransparency = 1;BorderSizePixel = 0;BorderColor3 = Color3.new(0, 0, 0);Text = "StarterValue";TextColor3 = Color3.new(1, 1, 1);TextSize = 14;TextTransparency = 0;FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal);TextScaled = true;TextWrapped = true;TextXAlignment = Enum.TextXAlignment.Right;RichText = true;Parent = TextBox2})
+	local TextBox3 = create("TextBox", {Name = "TextBox";Size = UDim2.new(1, 0, 1, 0);BackgroundColor3 = Color3.new(1, 1, 1);BackgroundTransparency = 1;BorderSizePixel = 0;BorderColor3 = Color3.new(0, 0, 0);Text = "StarterValue";TextColor3 = Color3.new(1, 1, 1);TextSize = 14;TextTransparency = 0;FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal);TextScaled = true;TextWrapped = true;TextXAlignment = Enum.TextXAlignment.Right;RichText = true;Parent = TextBox2, PlaceholderText = "Text"})
 	local UICorner8 = create("UICorner", {Name = "UICorner";Parent = TextBox2})
 	local ImageLabel = create("ImageLabel", {Name = "ImageLabel";Position = UDim2.new(0.5, 0, 0.5, 0);Size = UDim2.new(1.3, 0, 1.5, 0);BackgroundColor3 = Color3.new(1, 1, 1);BackgroundTransparency = 1;BorderSizePixel = 0;BorderColor3 = Color3.new(0, 0, 0);AnchorPoint = Vector2.new(0.5, 0.5);Transparency = 1;Image = "rbxassetid://7928096707";ImageTransparency = 0.8999999761581421;Parent = TextBox2})
 	local Slide = create("Frame", {Name = "Slide";Position = UDim2.new(0, 0, 0, 90);Size = UDim2.new(1, 0, 0, 30);BackgroundColor3 = Color3.new(0.219608, 0.219608, 0.219608);BackgroundTransparency = 1;BorderSizePixel = 0;BorderColor3 = Color3.new(0, 0, 0);Transparency = 1;Parent = guiScript25})
@@ -1033,6 +1033,9 @@ Gui_to_return.Window = function(conf: {})
 							local txFrame = new:WaitForChild("TextBox")
 							local txText: TextBox = txFrame:WaitForChild("TextBox")
 							txText.Text = v.StarterValue
+							txText.TextColor3 = Color3.fromRGB(199, 199, 199)
+							txText.PlaceholderText = v.Text
+							txText.PlaceholderColor3 = Color3.fromRGB(102, 102, 102)
 							local function OnActive2()
 								v.Callback(txText.Text)
 							end
