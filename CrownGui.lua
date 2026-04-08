@@ -1033,9 +1033,9 @@ Gui_to_return.Window = function(conf: {})
 							local txText: TextBox = txFrame:WaitForChild("TextBox")
 							text.Text = ""
 							txText.Text = v.StarterValue or ""
-							txText.TextColor3 = Color3.fromRGB(199, 199, 199)
+							txText.TextColor3 = Color3.fromRGB(255, 255, 255)
 							txText.PlaceholderText = v.Text or ""
-							txText.PlaceholderColor3 = Color3.fromRGB(102, 102, 102)
+							txText.PlaceholderColor3 = Color3.fromRGB(199,199,199)
 							local function OnActive2()
 								v.Callback(txText.Text)
 							end
