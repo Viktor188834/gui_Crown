@@ -1028,11 +1028,13 @@ Gui_to_return.Window = function(conf: {})
 							ActivateButton.MouseButton1Down:Connect(OnActive2);
 							ActivateButton.TouchTap:Connect(OnActive2)
 						elseif v.id == "TextBox" then
+							local text = new:WaitForChild("Text")
 							local txFrame = new:WaitForChild("TextBox")
 							local txText: TextBox = txFrame:WaitForChild("TextBox")
-							txText.Text = v.StarterValue
+							text.Text = ""
+							txText.Text = v.StarterValue or ""
 							txText.TextColor3 = Color3.fromRGB(199, 199, 199)
-							txText.PlaceholderText = v.Text
+							txText.PlaceholderText = v.Text or ""
 							txText.PlaceholderColor3 = Color3.fromRGB(102, 102, 102)
 							local function OnActive2()
 								v.Callback(txText.Text)
