@@ -1093,6 +1093,7 @@ Gui_to_return.Window = function(conf: {})
 								else
 									hide_unhide_bind:Fire(false)
 									a:Disconnect()
+									a = nil
 								end
 							end
 							ActivateButton.MouseButton1Down:Connect(OnActive3)
