@@ -329,7 +329,7 @@ local function create_gui()
 	local PlrSelect = Instance.new("Frame")
 	PlrSelect.Name = "PlrSelect"
 	PlrSelect.Position = UDim2.new(0, -50, 0, 0)
-	PlrSelect.Size = UDim2.new(0.5, 0, 1, 0)
+	PlrSelect.Size = UDim2.new(0, 201, 0, 250)
 	PlrSelect.BackgroundColor3 = Color3.new(0.192157, 0.192157, 0.192157)
 	PlrSelect.BackgroundTransparency = 1
 	PlrSelect.BorderSizePixel = 0
@@ -460,11 +460,9 @@ local function create_gui()
 	ActivateButton.AutoButtonColor = false
 	ActivateButton.Parent = PlrSelectTemp
 
-	local UIListLayout = Instance.new("UIListLayout")
+	local UIListLayout = Instance.new("UIGridLayout")
 	UIListLayout.Name = "UIListLayout"
-	UIListLayout.Padding = UDim.new(0, 5)
-	UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-	UIListLayout.Wraps = true
+	UIListLayout.CellSize = UDim2.new(0.95, 0, 0, 35)
 	UIListLayout.Parent = ScrollingFrame
 
 	local plrSelect = Instance.new("Frame")
